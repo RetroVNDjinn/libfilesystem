@@ -166,11 +166,11 @@ static void nitroSubReadBlock(u32 pos, u8 *ptr, u32 len) {
 //---------------------------------------------------------------------------------
 	if ( (len & 3) == 0 && (((u32)ptr) & 3) == 0 && (pos & 3) == 0) {
 		// if everything is word-aligned, read directly
-		cardParamCommand(0xB7, pos, CARD_DELAY1(0x1FFF) | CARD_DELAY2(0x3F) | CARD_CLK_SLOW | CARD_WR | CARD_nRESET | CARD_SEC_CMD | CARD_SEC_DAT | CARD_ACTIVATE | CARD_BLK_SIZE(1), (u32*)ptr, len >> 2);
+		cardParamCommand(0xB7, pos, CARD_DELAY1(0x1FFF) | CARD_DELAY2(0x3F) | CARD_CLK_SLOW | CARD_nRESET | CARD_SEC_CMD | CARD_SEC_DAT | CARD_ACTIVATE | CARD_BLK_SIZE(1), (u32*)ptr, len >> 2);
  	} else {
 		// otherwise, use a temporary buffer
 		static u32 temp[128];
-		cardParamCommand(0xB7, (pos & ~0x1ff), CARD_DELAY1(0x1FFF) | CARD_DELAY2(0x3F) | CARD_CLK_SLOW | CARD_WR | CARD_nRESET | CARD_SEC_CMD | CARD_SEC_DAT | CARD_ACTIVATE | CARD_BLK_SIZE(1), temp, 0x200 >> 2);
+		cardParamCommand(0xB7, (pos & ~0x1ff), CARD_DELAY1(0x1FFF) | CARD_DELAY2(0x3F) | CARD_CLK_SLOW | CARD_nRESET | CARD_SEC_CMD | CARD_SEC_DAT | CARD_ACTIVATE | CARD_BLK_SIZE(1), temp, 0x200 >> 2);
 		memcpy(ptr, ((u8*)temp) + (pos & 0x1FF), len);
 	}
 }
